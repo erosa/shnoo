@@ -6,6 +6,10 @@ coffeeshop patrons don't need to know about it.
 Or, for when you're tired of reddit.com's appealing and intuitive user interface and want to
 stare at awkwardly-formatted console output instead.
 
+I suggest piping output to a text file and viewing with a pager like `less` or `more`. If
+you want to view colored output using vim, check out the
+[AnsiEsc](http://www.vim.org/scripts/script.php%3Fscript_id%3D302) vim script.
+
 <img src="http://imgur.com/38MBDj9.jpg" height="400" />   <img
 src="http://imgur.com/Pjsl1a8.jpg" height="400" />
 
