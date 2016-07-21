@@ -40,6 +40,7 @@ if args.color:
         BLUE = '\033[94m'
         GREEN = '\033[92m'
         YELLOW = '\033[93m'
+        CYAN = '\033[96m'
         RED = '\033[91m'
         ENDC = '\033[0m'
         BOLD = '\033[1m'
@@ -54,7 +55,7 @@ def comment_tree(root, prepend='', op=''):
     if name == op:
         color = color + colors.BOLD + colors.UNDERLINE
 
-    print("%s%s'%s'" % (prepend, color, name) + colors.ENDC + ' { ' + colors.YELLOW
+    print("%s%s'%s'" % (prepend, color, name) + colors.ENDC + ' { ' + colors.CYAN
           + "'%s'" % root.permalink.split('/')[-1] + colors.ENDC + ':')
     print(prepend + INDENT + votestring(root))
 
