@@ -49,3 +49,9 @@ optional arguments:
   --no-color            don't use colors in output
   --version, -v         show program's version number and exit
 ```
+
+## Todo
+
+- implement OAuth features
+- add interactive option
+- enable contributions
