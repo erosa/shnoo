@@ -6,7 +6,8 @@ coffeeshop patrons don't need to know about it.
 Or, for when you're tired of reddit.com's appealing and intuitive user interface and want to
 stare at awkwardly-formatted console output instead.
 
-<img src="http://imgur.com/38MBDj9.jpg" width="400" />
+<img src="http://imgur.com/38MBDj9.jpg" width="350" /><img
+src="http://imgur.com/Pjsl1a8.jpg" width="350" />
 
 ## Examples
 
