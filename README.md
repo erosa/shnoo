@@ -1,12 +1,13 @@
 # shnoo.py
 
-For when you need that reddit fix, but your classmates/manager/fellow
+For when you need that reddit fix, but your classmates/manager/professor/fellow
 coffeeshop patrons don't need to know about it.
 
 Or, for when you're tired of reddit.com's appealing and intuitive user interface and want to
 stare at awkwardly-formatted console output instead.
 
-I suggest piping output to a text file and viewing with a pager like `less` or `more`. If
+I suggest piping output to a text file and viewing with a pager like `less` or `more`. For
+extra points, set up a cron job to fetch a digest of the news each morning, or something. If
 you want to view colored output using vim, check out the
 [AnsiEsc](http://www.vim.org/scripts/script.php%3Fscript_id%3D302) vim script.
 
@@ -66,3 +67,4 @@ optional arguments:
 - [ ] implement OAuth features
 - [ ] add interactive option
 - [ ] enable contributions
+- [ ] support multiple subreddits
