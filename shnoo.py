@@ -34,7 +34,7 @@ args = parser.parse_args()
 
 if args.color:
     class colors:
-        HEADER = '\033[95m'
+        PINK = '\033[95m'
         BLUE = '\033[94m'
         GREEN = '\033[92m'
         YELLOW = '\033[93m'
@@ -44,7 +44,7 @@ if args.color:
         UNDERLINE = '\033[4m'
 else:
     class colors:
-        HEADER = BLUE = GREEN = YELLOW = RED = ENDC = BOLD = UNDERLINE = ''
+        PINK = BLUE = GREEN = YELLOW = RED = ENDC = BOLD = UNDERLINE = ''
 
 def comment_tree(root, prepend='', op=''):
     name = 'deleted' if not root.author else root.author.name
@@ -68,6 +68,8 @@ def comment_tree(root, prepend='', op=''):
     print(prepend + '}')
 
 r = praw.Reddit(user_agent='shnoo: https://github.com/erosa/shnoo')
+#r.set_oath_app_info(client_id='wTURS1H1JqPeyw', client_secret='zz_myP_dHQM8tIjunLbB3P6hiwU', 
+#                    redirect_uri='http://127.0.0.1:65010/authorize_callback')
 r.login(args.u, args.p, disable_warning=True)
 
 if args.sort == 'top':
@@ -89,11 +91,17 @@ for i, submission in enumerate(submissions):
     if args.fetch_all:
         submission.replace_more_comments()
 
-    print(colors.BOLD + colors.HEADER + '# (%d/%d) %s\n' % (i + 1, args.n, submission.title) +
-          colors.BOLD + colors.HEADER + '# %s - %s' % (submission.author.name, submission.short_link))
+    text = '%s#  => op:  %s || link: %s%s' % (colors.PINK, submission.author.name, submission.short_link, colors.ENDC)
+
+    print(fill(submission.title, args.l, initial_indent=colors.BOLD + colors.PINK + '# ',
+               subsequent_indent=colors.BOLD + colors.PINK + '# '))
+    print('%s[%surl%s = %s]' % (colors.ENDC, colors.YELLOW, colors.ENDC, submission.url))
+    print('[%sop%s = %s, %spermalink%s = %s]' % (colors.YELLOW, colors.ENDC, submission.author.name,
+                                                 colors.YELLOW, colors.ENDC, submission.short_link))
     printstats(submission)
     print()
 
-    for comment in submission.comments[:args.c]:
-        if hasattr(comment, 'body'):
-            comment_tree(comment, prepend=' ', op=submission.author.name)
+    if not args.links_only:
+        for comment in submission.comments[:args.c]:
+            if hasattr(comment, 'body'):
+                comment_tree(comment, prepend=' ', op=submission.author.name)
