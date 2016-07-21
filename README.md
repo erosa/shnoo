@@ -24,6 +24,7 @@ $ ./shnoo.py -u USER -p PASSWORD -s AskReddit -c 50 -f --sort top
 ```
 ## Usage
 
+```
 $ ./shnoo.py -h
 usage: shnoo.py [-h] [-u username] [-s subreddit] [-p password] [-l linewidth]
                 [-n num_posts] [-c max_comments]
@@ -46,6 +47,4 @@ optional arguments:
   --links               display only links, no comments
   --no-color            don't use colors in output
   --version, -v         show program's version number and exit
-```
-
 ```
