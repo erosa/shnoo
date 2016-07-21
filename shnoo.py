@@ -20,7 +20,7 @@ parser.add_argument('-n', action='store', metavar='num_posts', type=int, default
                     help='number of posts to output')
 parser.add_argument('-c', action='store', metavar='max_comments', type=int, default=100,
                     help='max number of comment threads to display')
-parser.add_argument('--sort', action='store', metavar='submission sort order', type=str, default='hot',
+parser.add_argument('--sort', action='store', metavar='sort_order', type=str, default='hot',
                     help='submission sort order: hot, rising, new, or top')
 parser.add_argument('-f', '--fetch-all', action='store_const', dest='fetch_all', default=False, const=True,
                     help='fetch all comments from every thread (limited to 32 API requests)')
@@ -52,8 +52,8 @@ def comment_tree(root, prepend='', op=''):
     if name == op:
         color = color + colors.BOLD + colors.UNDERLINE
 
-    print("%s%s'%s'" % (prepend, color, name) + colors.ENDC + ": " + colors.YELLOW
-          + "'%s':" % root.permalink.split('/')[-1] + colors.ENDC)
+    print("%s%s'%s'" % (prepend, color, name) + colors.ENDC + ' { ' + colors.YELLOW
+          + "'%s'" % root.permalink.split('/')[-1] + colors.ENDC + ':')
     printstats(root, prepend + INDENT)
 
     text = root.body
@@ -67,7 +67,7 @@ def comment_tree(root, prepend='', op=''):
 
     print(prepend + '}')
 
-r = praw.Reddit(user_agent='reddit cli by Liz')
+r = praw.Reddit(user_agent='shnoo: https://github.com/erosa/shnoo')
 r.login(args.u, args.p, disable_warning=True)
 
 if args.sort == 'top':
@@ -92,6 +92,7 @@ for i, submission in enumerate(submissions):
     print(colors.BOLD + colors.HEADER + '# (%d/%d) %s\n' % (i + 1, args.n, submission.title) +
           colors.BOLD + colors.HEADER + '# %s - %s' % (submission.author.name, submission.short_link))
     printstats(submission)
+    print()
 
     for comment in submission.comments[:args.c]:
         if hasattr(comment, 'body'):
