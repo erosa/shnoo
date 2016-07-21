@@ -63,6 +63,6 @@ optional arguments:
 
 ## Todo
 
-- implement OAuth features
-- add interactive option
-- enable contributions
+[] implement OAuth features
+[] add interactive option
+[] enable contributions
