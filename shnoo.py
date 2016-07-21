@@ -2,7 +2,7 @@
 
 import praw
 import argparse
-from textwrap import fill
+from textwrap import fill, wrap
 
 VERSION = 0.1
 INDENT = '    '
@@ -28,6 +28,8 @@ parser.add_argument('--links', action='store_const', dest='links_only', default=
                     help='display only links, no comments')
 parser.add_argument('--no-color', dest='color', action='store_const', default=True, const=False,
                     help="don't use colors in output")
+parser.add_argument('--no-url', dest='show_url', action='store_const', default=True, const=False,
+                    help="don't display submission URL, just Reddit.com thread link")
 parser.add_argument('--version', '-v', action='version', version=str(VERSION))
 
 args = parser.parse_args()
@@ -54,7 +56,7 @@ def comment_tree(root, prepend='', op=''):
 
     print("%s%s'%s'" % (prepend, color, name) + colors.ENDC + ' { ' + colors.YELLOW
           + "'%s'" % root.permalink.split('/')[-1] + colors.ENDC + ':')
-    printstats(root, prepend + INDENT)
+    print(prepend + INDENT + votestring(root))
 
     text = root.body
     for p in text.split('\n'):
@@ -68,38 +70,34 @@ def comment_tree(root, prepend='', op=''):
     print(prepend + '}')
 
 r = praw.Reddit(user_agent='shnoo: https://github.com/erosa/shnoo')
-#r.set_oath_app_info(client_id='wTURS1H1JqPeyw', client_secret='zz_myP_dHQM8tIjunLbB3P6hiwU', 
-#                    redirect_uri='http://127.0.0.1:65010/authorize_callback')
 r.login(args.u, args.p, disable_warning=True)
 
 if args.sort == 'top':
     submissions = r.get_subreddit(args.s).get_top(limit=args.n, comment_sort='best')
-if args.sort == 'hot':
-    submissions = r.get_subreddit(args.s).get_hot(limit=args.n, comment_sort='best')
 if args.sort == 'rising':
     submissions = r.get_subreddit(args.s).get_rising(limit=args.n, comment_sort='best')
 if args.sort == 'new':
     submissions = r.get_subreddit(args.s).get_new(limit=args.n, comment_sort='best')
+else:
+    if args.sort != 'hot':
+        print('%s[ERROR] %s is not a valid subreddit sort order; defaulting to Hot.%s' % (colors.RED, args.sort, colors.ENDC))
+    submissions = r.get_subreddit(args.s).get_hot(limit=args.n, comment_sort='best')
 
-def printstats(thing, prepend=''):
-    print('%s[%sup%s%s = %s%s%s%s, ' % (prepend, colors.YELLOW, colors.ENDC, colors.BOLD, colors.ENDC,
-          colors.GREEN, str(thing.ups), colors.ENDC), end='')
-    print('%sdown%s%s = %s%s%s%s]' % (colors.YELLOW, colors.ENDC, colors.BOLD, colors.ENDC,
-          colors.RED, str(thing.downs), colors.ENDC))
+def votestring(thing):
+    color = colors.GREEN if thing.ups > 0 else colors.RED
+    return '[ %sscore%s = %s%s%s ]' % (colors.YELLOW, colors.ENDC, color, str(thing.ups), colors.ENDC)
 
 for i, submission in enumerate(submissions):
     if args.fetch_all:
         submission.replace_more_comments()
 
-    text = '%s#  => op:  %s || link: %s%s' % (colors.PINK, submission.author.name, submission.short_link, colors.ENDC)
-
     print(fill(submission.title, args.l, initial_indent=colors.BOLD + colors.PINK + '# ',
                subsequent_indent=colors.BOLD + colors.PINK + '# '))
-    print('%s[%surl%s = %s]' % (colors.ENDC, colors.YELLOW, colors.ENDC, submission.url))
-    print('[%sop%s = %s, %spermalink%s = %s]' % (colors.YELLOW, colors.ENDC, submission.author.name,
-                                                 colors.YELLOW, colors.ENDC, submission.short_link))
-    printstats(submission)
-    print()
+    print(colors.ENDC, end='')
+    url = '[ %surl%s = %s ]' % (colors.YELLOW, colors.ENDC, submission.url) if args.show_url else ''
+    print(votestring(submission) + url)
+    print('[ %sop%s = %s ][ %spermalink%s = %s ]' % (colors.YELLOW, colors.ENDC, submission.author.name,
+                                                 colors.YELLOW, colors.ENDC, submission.short_link), end='\n\n')
 
     if not args.links_only:
         for comment in submission.comments[:args.c]:
