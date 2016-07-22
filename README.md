@@ -52,7 +52,7 @@ optional arguments:
   -p password        reddit password
   -l linewidth       maximum output line width
   -n num_posts       number of posts to output
-  -c max_comments    max number of comment threads to display
+  -c max_comments    max number of comment threads to display, per post
   --sort sort_order  submission sort order: hot, rising, new, or top
   -f, --fetch-all    fetch all comments from every thread (limited to 32 API
                      requests)

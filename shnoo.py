@@ -19,7 +19,7 @@ parser.add_argument('-l', action='store', metavar='linewidth', type=int, default
 parser.add_argument('-n', action='store', metavar='num_posts', type=int, default=3,
                     help='number of posts to output')
 parser.add_argument('-c', action='store', metavar='max_comments', type=int, default=100,
-                    help='max number of comment threads to display')
+                    help='max number of comment threads to display, per post')
 parser.add_argument('--sort', action='store', metavar='sort_order', type=str, default='hot',
                     help='submission sort order: hot, rising, new, or top')
 parser.add_argument('-f', '--fetch-all', action='store_const', dest='fetch_all', default=False, const=True,
