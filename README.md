@@ -29,8 +29,6 @@ Get the 25 best comment threads from the all-time #1 AskReddit post (10/10 with 
 $ ./shnoo.py -u USER -p PASSWORD -s AskReddit -c 50 -f --sort top
 ```
 
-    more code is here
-
 Get the top 50 ShowerThoughts submissions, showing just title, author, score, and
 permalink; no comments or submission url.
 
