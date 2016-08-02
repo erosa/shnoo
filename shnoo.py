@@ -7,13 +7,13 @@ from textwrap import fill, wrap
 VERSION = 0.1
 INDENT = '    '
 
-parser = argparse.ArgumentParser(description='Get your Reddit fix at the CLI .')
+parser = argparse.ArgumentParser(description='Get your Reddit fix at the CLI.')
 parser.add_argument('-u', action='store', metavar='username', type=str,
-                    help='reddit username')
+                    help='reddit username', required=True)
 parser.add_argument('-s', action='store', metavar='subreddit', type=str,
-                    help='subreddit')
+                    help='subreddit', required=True)
 parser.add_argument('-p', action='store', metavar='password', type=str,
-                    help='reddit password')
+                    help='reddit password', required=True)
 parser.add_argument('-l', action='store', metavar='linewidth', type=int, default=100,
                     help='maximum output line width')
 parser.add_argument('-n', action='store', metavar='num_posts', type=int, default=3,
