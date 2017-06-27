@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/homebrew/bin/python3
 
 import praw
 import argparse
@@ -56,7 +56,7 @@ def comment_tree(root, prepend='', op=''):
         color = color + colors.BOLD + colors.UNDERLINE
 
     print("%s%s'%s'" % (prepend, color, name) + colors.ENDC + ' { ' + colors.CYAN
-          + "'%s'" % root.permalink.split('/')[-1] + colors.ENDC + ':')
+          + "'%s'" % root.id + colors.ENDC + ':')
     print(prepend + INDENT + votestring(root))
 
     text = root.body
@@ -70,19 +70,18 @@ def comment_tree(root, prepend='', op=''):
 
     print(prepend + '}')
 
-r = praw.Reddit(user_agent='shnoo: https://github.com/erosa/shnoo')
-r.login(args.u, args.p, disable_warning=True)
+r = praw.Reddit(client_id='wTURS1H1JqPeyw', client_secret='zz_myP_dHQM8tIjunLbB3P6hiwU', user_agent='shnoo: https://github.com/erosa/shnoo')
 
 if args.sort == 'top':
-    submissions = r.get_subreddit(args.s).get_top(limit=args.n, comment_sort='best')
+    submissions = r.subreddit(args.s).top(limit=args.n)
 if args.sort == 'rising':
-    submissions = r.get_subreddit(args.s).get_rising(limit=args.n, comment_sort='best')
+    submissions = r.subreddit(args.s).rising(limit=args.n)
 if args.sort == 'new':
-    submissions = r.get_subreddit(args.s).get_new(limit=args.n, comment_sort='best')
+    submissions = r.subreddit(args.s).new(limit=args.n)
 else:
     if args.sort != 'hot':
         print('%s[ERROR] %s is not a valid subreddit sort order; defaulting to Hot.%s' % (colors.RED, args.sort, colors.ENDC))
-    submissions = r.get_subreddit(args.s).get_hot(limit=args.n, comment_sort='best')
+    submissions = r.subreddit(args.s).hot(limit=args.n)
 
 def votestring(thing):
     color = colors.GREEN if thing.ups > 0 else colors.RED
@@ -98,7 +97,7 @@ for i, submission in enumerate(submissions):
     url = '[ %surl%s = %s ]' % (colors.YELLOW, colors.ENDC, submission.url) if args.show_url else ''
     print(votestring(submission) + url)
     print('[ %sop%s = %s ][ %spermalink%s = %s ]' % (colors.YELLOW, colors.ENDC, submission.author.name,
-                                                 colors.YELLOW, colors.ENDC, submission.short_link), end='\n\n')
+                                                 colors.YELLOW, colors.ENDC, submission.id), end='\n\n')
 
     if not args.links_only:
         for comment in submission.comments[:args.c]:
