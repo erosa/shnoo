@@ -43,7 +43,7 @@ usage: shnoo.py [-h] [-u username] [-s subreddit] [-p password] [-l linewidth]
                 [-n num_posts] [-c max_comments] [--sort sort_order] [-f]
                 [--links] [--no-color] [--no-url] [--version]
 
-Get your Reddit fix at the CLI .
+Get your Reddit fix at the CLI.
 
 optional arguments:
   -h, --help         show this help message and exit
